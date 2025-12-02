@@ -1,3 +1,4 @@
+package symulator;
 public class Zawody {
     private String nazwa;
     private int data;

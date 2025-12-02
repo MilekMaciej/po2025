@@ -1,3 +1,4 @@
+package symulator;
 public class Sprzeglo extends Komponent {
     private boolean stanSprzegla;
 

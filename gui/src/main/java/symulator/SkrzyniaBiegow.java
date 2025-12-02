@@ -1,3 +1,4 @@
+package symulator;
 public class SkrzyniaBiegow extends Komponent {
     private int bieg;
     private int iloscBiegow;
@@ -18,7 +19,7 @@ public class SkrzyniaBiegow extends Komponent {
             this.bieg += 1;
         }
     }
-    public void zmmiejszBieg() {
+    public void zmniejszBieg() {
         if(bieg > 1) {
             this.bieg -= 1;
         }

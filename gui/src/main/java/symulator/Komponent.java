@@ -1,3 +1,4 @@
+package symulator;
 public abstract class Komponent {
     private int waga;
     private String nazwa;

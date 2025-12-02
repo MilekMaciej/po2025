@@ -1,3 +1,4 @@
+package symulator;
 public class Samochod {
 
     private boolean stanWlaczenia;
@@ -13,23 +14,56 @@ public class Samochod {
     public Samochod(String setModel, float setMaxPredkosc, String setNrRej, Pozycja setPozycja, Silnik setSilnik, SkrzyniaBiegow setSkrzyniaBiegow, Sprzeglo setSprzeglo) {
         this.stanWlaczenia = false;
         this.model = setModel;
-        this.maxPredkosc = maxPredkosc;
+        this.maxPredkosc = setMaxPredkosc;
         this.nrRej = setNrRej;
         this.silnik = setSilnik;
         this.pozycja = setPozycja;
         this.sprzeglo = setSprzeglo;
     }
 
+    public String getNrRej(){
+        return nrRej;
+    }
+
+    public Silnik getSilnik() {
+        return silnik;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public float getMaxPredkosc() {
+        return maxPredkosc;
+    }
+
+    public SkrzyniaBiegow getSkrzyniaBiegow() {
+        return skrzyniaBiegow;
+    }
+
+    public Pozycja getPozycja() {
+        return pozycja;
+    }
+
+    public Sprzeglo getSprzeglo() {
+        return sprzeglo;
+    }
+
+    public boolean StanWlaczenia() {
+        return stanWlaczenia;
+    }
+
+    public int
+
     public void wlacz(){
         this.stanWlaczenia = true;
+        this.silnik.jalowy();
     }
 
     public void wylacz(){
         this.stanWlaczenia = false;
+        this.silnik.wylacz();
     }
 
-    public float getAktPredkosc(){
-        return this.maxPredkosc;
-    }
 
 }
