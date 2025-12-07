@@ -2,15 +2,13 @@ package symulator;
 public class Silnik extends Komponent{
     private int obroty;
     private int maxObroty;
-    private Sprzeglo sprzeglo;
 
 
-    public Silnik(int setMaxObroty, int setWaga, String setNazwa, float setCena, Sprzeglo setSprzeglo) {
+    public Silnik(int setMaxObroty, int setWaga, String setNazwa, float setCena) {
         super(setWaga, setNazwa, setCena);
 
         this.obroty = 0;
         this.maxObroty = setMaxObroty;
-        this.sprzeglo = setSprzeglo;
     }
 
     public int getObroty() {
@@ -18,7 +16,7 @@ public class Silnik extends Komponent{
     }
 
     public void jalowy() {
-        this.obroty = 1000;
+            this.obroty = 1000;
     }
 
     public void wylacz() {
@@ -27,7 +25,7 @@ public class Silnik extends Komponent{
 
     public void zwiekszObroty(){
         if((obroty + 100) < maxObroty){
-            this.obroty += 100;
+            this.obroty += 500;
         }
         else{
             this.obroty = maxObroty;
@@ -35,7 +33,7 @@ public class Silnik extends Komponent{
     }
     public void zmniejszObroty() {
         if ((obroty - 100) <= 0) {
-            this.obroty -= 1000;
+            this.obroty -= 500;
         }
         else{
             this.obroty = 0;

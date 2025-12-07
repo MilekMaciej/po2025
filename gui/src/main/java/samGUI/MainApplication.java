@@ -9,7 +9,7 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
         Scene scene = new Scene(loader.load(), 1400, 800);
 
         stage.setTitle("Symulator Samochodu");

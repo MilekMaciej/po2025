@@ -13,6 +13,10 @@ public class SkrzyniaBiegow extends Komponent {
         this.iloscBiegow = setIloscBiegow;
         this.bieg = 0;
     }
+    public SkrzyniaBiegow getSkrzyniaBiegow() {
+        return SkrzyniaBiegow.this;
+    }
+
 
     public void zwiekszBieg() {
         if(bieg < iloscBiegow) {

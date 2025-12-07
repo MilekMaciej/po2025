@@ -5,6 +5,7 @@ public class Samochod {
     private String model;
     private float maxPredkosc;
     private String nrRej;
+    private int waga;
 
     private Silnik silnik;
     private SkrzyniaBiegow skrzyniaBiegow;
@@ -19,11 +20,12 @@ public class Samochod {
         this.silnik = setSilnik;
         this.pozycja = setPozycja;
         this.sprzeglo = setSprzeglo;
+        this.skrzyniaBiegow = setSkrzyniaBiegow;
+        this.waga = 1000 + this.getSilnik().getWaga() + this.getSkrzyniaBiegow().getWaga() + this.getSprzeglo().getWaga();
     }
+public int  getWaga() { return waga; }
 
-    public String getNrRej(){
-        return nrRej;
-    }
+    public String getNrRej(){ return nrRej; }
 
     public Silnik getSilnik() {
         return silnik;
@@ -52,8 +54,6 @@ public class Samochod {
     public boolean StanWlaczenia() {
         return stanWlaczenia;
     }
-
-    public int
 
     public void wlacz(){
         this.stanWlaczenia = true;

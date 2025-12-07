@@ -7,5 +7,11 @@ public class Zawody {
         this.nazwa = setnazwa;
         this.data = setdata;
     }
+    public String getNazwa(){
+        return this.nazwa;
+    }
+    public int getData(){
+        return this.data;
+    }
 
 }

@@ -14,4 +14,8 @@ public class Sprzeglo extends Komponent {
     {
         stanSprzegla = false;
     }
+
+    public Sprzeglo getSprzeglo() {
+        return Sprzeglo.this;
+    }
 }

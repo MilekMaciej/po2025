@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/20"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="samGUI.MainController"
+            prefWidth="1400.0" prefHeight="800.0">
+
+    <!-- GÓRNY PASEK: wybór samochodu + przyciski -->
+    <top>
+        <HBox spacing="10.0" alignment="CENTER">
+            <padding>
+                <Insets topRightBottomLeft="10.0"/>
+            </padding>
+
+            <Label text="Samochód:"/>
+            <ComboBox fx:id="carComboBox" prefWidth="250.0"/>
+
+            <Button text="Dodaj nowy" onAction="#openNewWindow"/>
+            <Button text="Usuń"/>
+        </HBox>
+    </top>
+
+    <!-- LEWA KOLUMNA: dane i sterowanie -->
+    <left>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets topRightBottomLeft="10.0"/>
+            </padding>
+
+            <!-- Samochód -->
+            <TitledPane text="Samochód" expanded="true">
+                <content>
+                    <VBox spacing="8.0">
+                        <GridPane hgap="8.0" vgap="5.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="70.0"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <children>
+                                <Label text="Model:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfModel" editable="false"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Nr rejestracyjny:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfPlate" editable="false"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Waga [kg]:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfWeight" editable="false"
+                                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                <Label text="Prędkość [km/h]:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfSpeed" editable="false"
+                                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            </children>
+                        </GridPane>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <!-- Skrzynia biegów -->
+            <TitledPane text="Skrzynia Biegów" expanded="true">
+                <content>
+                    <VBox spacing="5.0">
+                        <GridPane hgap="8.0" vgap="5.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="70.0"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <children>
+                                <Label text="Nazwa:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfGearboxName" editable="false"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Cena:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfGearboxPrice" editable="false"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Masa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfGearboxWeight" editable="false"
+                                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                <Label text="Bieg:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfGear" editable="false"
+                                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            </children>
+                        </GridPane>
+
+                        <HBox spacing="5.0" alignment="CENTER">
+                            <Button text="Zwiększ bieg" onAction="#onGearUp" prefWidth="100.0"/>
+                            <Button text="Zmniejsz bieg" onAction="#onGearDown" prefWidth="110.0"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <!-- Silnik -->
+            <TitledPane text="Silnik" expanded="true">
+                <content>
+                    <VBox spacing="5.0">
+                        <GridPane hgap="8.0" vgap="5.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="70.0"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <children>
+                                <Label text="Nazwa:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfEngineName" editable="false"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Cena:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfEnginePrice" editable="false"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Masa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfEngineWeight" editable="false"
+                                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                <Label text="Obroty:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfEngineRpm" editable="false"
+                                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            </children>
+                        </GridPane>
+
+                        <HBox spacing="5.0" alignment="CENTER">
+                            <Button text="Dodaj gaz" onAction="#onThrottleUp" prefWidth="100.0"/>
+                            <Button text="Ujmij gaz" onAction="#onThrottleDown" prefWidth="100.0"/>
+                            <ToggleButton fx:id="engineToggle" text="OFF" onAction="#onEngineToggle" prefWidth="100"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+            <!-- Sprzęgło -->
+            <TitledPane text="Sprzęgło" expanded="true">
+                <content>
+                    <VBox spacing="5.0">
+                        <GridPane hgap="8.0" vgap="5.0">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" minWidth="70.0"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+
+                            <children>
+                                <Label text="Nazwa:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfClutchName" editable="false"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                <Label text="Cena:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfClutchPrice" editable="false"
+                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                <Label text="Masa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfClutchWeight" editable="false"
+                                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                                <Label text="Stan:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                <TextField fx:id="tfClutchState" editable="false"
+                                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                            </children>
+                        </GridPane>
+
+                        <HBox spacing="5.0" alignment="CENTER">
+                            <Button text="Naciśnij" onAction="#onClutchPress" prefWidth="90.0"/>
+                            <Button text="Zwolnij" onAction="#onClutchRelease" prefWidth="90.0"/>
+                        </HBox>
+                    </VBox>
+                </content>
+            </TitledPane>
+
+        </VBox>
+    </left>
+
+    <!-- MAPA / ŚRODEK -->
+    <center>
+        <AnchorPane fx:id="mapPane" style="-fx-background-color: #008A0F;">
+            <children>
+                <Label text="Mapa" layoutX="20.0" layoutY="20.0"/>
+
+                <ImageView fx:id="carImage"
+                           fitWidth="80.0" fitHeight="80.0"
+                           layoutX="80.0" layoutY="120.0"
+                           preserveRatio="true">
+                    <image>
+                        <!-- car.png musi być w tym samym katalogu resources co View.fxml -->
+                        <Image url="@car.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </center>
+
+</BorderPane>

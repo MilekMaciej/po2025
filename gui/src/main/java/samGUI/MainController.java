@@ -6,13 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 // importy z modułu symulator:
-import symulator.Samochod;
-import symulator.Silnik;
-import symulator.SkrzyniaBiegow;
-import symulator.Sprzeglo;
-import symulator.Pozycja;
+import symulator.*;
 
 public class MainController {
 
@@ -47,24 +47,45 @@ public class MainController {
     @FXML
     public void initialize() {
 
-        // Przykładowy samochód z użyciem Twoich klas z symulatora:
-        Sprzeglo sprzeglo = new Sprzeglo(20, "Standard", 1500);
-        Silnik silnik = new Silnik(900, 5000, "1.9 TDI", 150, sprzeglo);
-        SkrzyniaBiegow skrzynia = new SkrzyniaBiegow(5, 80, "Manual", 3000);
-        Pozycja poz = new Pozycja(40, 40);
+        // 1. Load cars from DataManager
+        cars.setAll(DataManager.getAvailableCars());
 
-        Samochod s1 = new Samochod("Golf", 180, "WX 12345", poz, silnik, skrzynia, sprzeglo);
-
-        cars.add(s1);
-
+        // 2. Put them into ComboBox
         carComboBox.setItems(cars);
-        carComboBox.getSelectionModel().selectFirst();
 
+        // 3. Automatically select the first car
+        if (!cars.isEmpty()) {
+            carComboBox.getSelectionModel().selectFirst();
+            selectCar(cars.get(0));
+        }
+
+        // 4. Listener for user selection
         carComboBox.getSelectionModel().selectedItemProperty().addListener(
-                (obs, old, now) -> selectCar(now)
+                (obs, oldCar, newCar) -> selectCar(newCar)
         );
+    }
 
-        selectCar(s1);
+
+    public void openNewWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewWindow.fxml"));
+            Parent root = loader.load();
+
+            CarAddController controller = loader.getController();
+
+            // Suppose you have these lists already in MainController:
+            // ObservableList<SkrzyniaBiegow> gearboxes;
+            // ObservableList<Silnik> engines;
+            // ObservableList<Sprzeglo> clutches;
+
+            Stage stage = new Stage();
+            stage.setTitle("Nowe okno");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void selectCar(Samochod car) {
@@ -72,15 +93,18 @@ public class MainController {
 
         currentCar = car;
 
+        // Stan włączenia silnika
+        boolean wlaczony = car.StanWlaczenia();   // or getStanWlaczenia()
+        engineToggle.setSelected(wlaczony);
+        engineToggle.setText(wlaczony ? "ON" : "OFF");
+
+
         tfModel.setText(car.getModel());
         tfPlate.setText(car.getNrRej());
         tfSpeed.setText("0");
 
-        int totalWeight = car.getSilnik().getWaga()
-                + car.getSkrzyniaBiegow().getWaga()
-                + car.getSprzeglo().getWaga();
 
-        tfWeight.setText(String.valueOf(totalWeight));
+        tfWeight.setText(String.valueOf(car.getWaga()));
 
         // Skrzynia
         tfGearboxName.setText(car.getSkrzyniaBiegow().getNazwa());
@@ -103,22 +127,31 @@ public class MainController {
         // mapa
         carImage.setLayoutX(car.getPozycja().getX());
         carImage.setLayoutY(car.getPozycja().getY());
+
+        tfEngineRpm.setText(String.valueOf(car.getSilnik().getObroty()));
+
     }
 
     // --- AKCJE GUI ---
 
-    @FXML
-    private void onCarStart() {
-        if (currentCar == null) return;
-        currentCar.wlacz();
-        tfSpeed.setText("10");
-    }
+    @FXML private ToggleButton engineToggle;
 
     @FXML
-    private void onCarStop() {
+    private void onEngineToggle() {
         if (currentCar == null) return;
-        currentCar.wylacz();
-        tfSpeed.setText("0");
+
+        boolean nowOn = engineToggle.isSelected();
+
+        if (nowOn) {
+            currentCar.wlacz();
+            engineToggle.setText("ON");
+            tfSpeed.setText("10");
+        } else {
+            currentCar.wylacz();
+            engineToggle.setText("OFF");
+            tfSpeed.setText("0");
+        }
+        tfEngineRpm.setText(String.valueOf(currentCar.getSilnik().getObroty()));
     }
 
     @FXML
@@ -171,4 +204,5 @@ public class MainController {
         carImage.setLayoutX(p.getX());
         carImage.setLayoutY(p.getY());
     }
+
 }
