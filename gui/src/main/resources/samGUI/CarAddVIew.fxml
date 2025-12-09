@@ -41,7 +41,7 @@
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Anuluj" onAction="#closeWindow"/>
+        <Button text="Anuluj" onAction="#onCancel"/>
         <Button text="Zapisz"/>
     </HBox>
 

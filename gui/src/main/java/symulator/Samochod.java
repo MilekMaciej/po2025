@@ -23,7 +23,13 @@ public class Samochod {
         this.skrzyniaBiegow = setSkrzyniaBiegow;
         this.waga = 1000 + this.getSilnik().getWaga() + this.getSkrzyniaBiegow().getWaga() + this.getSprzeglo().getWaga();
     }
-public int  getWaga() { return waga; }
+
+    @Override
+    public String toString() {
+        return model + " [" + nrRej + "]";
+    }
+
+    public int  getWaga() { return waga; }
 
     public String getNrRej(){ return nrRej; }
 

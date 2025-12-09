@@ -1,69 +1,80 @@
 package samGUI;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import symulator.SkrzyniaBiegow;
-import symulator.Silnik;
-import symulator.Sprzeglo;
-import symulator.DataManager;
+import symulator.*;   // Samochod, Silnik, SkrzyniaBiegow, Sprzeglo, Pozycja, DataManager
 
 public class CarAddController {
 
-    @FXML
-    private ComboBox<SkrzyniaBiegow> gearboxBox;
+    @FXML private TextField tfModel;
+    @FXML private TextField tfPlate;
+    @FXML private TextField tfWeight;
 
-    @FXML
-    private ComboBox<Silnik> engineBox;
+    @FXML private ComboBox<Silnik>        engineBox;
+    @FXML private ComboBox<SkrzyniaBiegow> gearboxBox;
+    @FXML private ComboBox<Sprzeglo>      clutchBox;
 
-    @FXML
-    private ComboBox<Sprzeglo> clutchBox;
+    private MainController mainController;   // set from MainController
 
-    // lists of available parts, set from MainController
-    private ObservableList<SkrzyniaBiegow> availableGearboxes =
-            FXCollections.observableArrayList();
-    private ObservableList<Silnik> availableEngines =
-            FXCollections.observableArrayList();
-    private ObservableList<Sprzeglo> availableClutches =
-            FXCollections.observableArrayList();
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     @FXML
     private void initialize() {
-        gearboxBox.setItems(availableGearboxes);
-        engineBox.setItems(availableEngines);
-        clutchBox.setItems(availableClutches);
-    }
+        // fill ComboBoxes from DataManager
+        engineBox.setItems(FXCollections.observableArrayList(
+                DataManager.getAvailableEngines()
+        ));
+        gearboxBox.setItems(FXCollections.observableArrayList(
+                DataManager.getAvailableGearboxes()
+        ));
+        clutchBox.setItems(FXCollections.observableArrayList(
+                DataManager.getAvailableClutches()
+        ));
 
-    // called from MainController after loading FXML
-    public void setAvailableParts(
-            ObservableList<SkrzyniaBiegow> gearboxes,
-            ObservableList<Silnik> engines,
-            ObservableList<Sprzeglo> clutches
-    ) {
-        availableGearboxes.setAll(gearboxes);
-        availableEngines.setAll(engines);
-        availableClutches.setAll(clutches);
+        // optionally select first items
+        if (!engineBox.getItems().isEmpty())  engineBox.getSelectionModel().selectFirst();
+        if (!gearboxBox.getItems().isEmpty()) gearboxBox.getSelectionModel().selectFirst();
+        if (!clutchBox.getItems().isEmpty())  clutchBox.getSelectionModel().selectFirst();
     }
 
     @FXML
-    private void closeWindow(ActionEvent event) {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+    private void onSave() {
+        // read data from fields + combos
+        String model = tfModel.getText();
+        String plate = tfPlate.getText();
+        float weight = Float.parseFloat(tfWeight.getText());
+
+        Silnik engine = engineBox.getValue();
+        SkrzyniaBiegow gearbox = gearboxBox.getValue();
+        Sprzeglo clutch = clutchBox.getValue();
+
+        // simple start position – you can change this
+        Pozycja p = new Pozycja(10, 10);
+
+        Samochod newCar = new Samochod(model, weight, plate, p, engine, gearbox, clutch);
+
+        // add to global data
+        DataManager.addCar(newCar);
+
+        // update main window list if we have a reference
+        if (mainController != null) {
+            mainController.addCarFromDialog(newCar);
+        }
+
+        // close this window
+        Stage stage = (Stage) tfModel.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    private void saveAndClose(ActionEvent event) {
-        SkrzyniaBiegow selectedGearbox = gearboxBox.getValue();
-        Silnik selectedEngine = engineBox.getValue();
-        Sprzeglo selectedClutch = clutchBox.getValue();
-
-        // TODO: tutaj zrób co chcesz – np. utwórz nowy Samochod albo
-        // przekaż wybrane części z powrotem do MainController (patrz dalej)
-
-        closeWindow(event);
+    private void onCancel() {
+        Stage stage = (Stage) tfModel.getScene().getWindow();
+        stage.close();
     }
 }
+

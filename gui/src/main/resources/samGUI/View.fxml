@@ -22,7 +22,7 @@
             <Label text="Samochód:"/>
             <ComboBox fx:id="carComboBox" prefWidth="250.0"/>
 
-            <Button text="Dodaj nowy" onAction="#openNewWindow"/>
+            <Button text="Dodaj nowy" onAction="#CarAddWindow"/>
             <Button text="Usuń"/>
         </HBox>
     </top>
@@ -171,8 +171,7 @@
                         </GridPane>
 
                         <HBox spacing="5.0" alignment="CENTER">
-                            <Button text="Naciśnij" onAction="#onClutchPress" prefWidth="90.0"/>
-                            <Button text="Zwolnij" onAction="#onClutchRelease" prefWidth="90.0"/>
+                            <ToggleButton fx:id="clutchToggle" text="Wcisniete" onAction="#onClutchToggle" prefWidth="100"/>
                         </HBox>
                     </VBox>
                 </content>
@@ -183,7 +182,7 @@
 
     <!-- MAPA / ŚRODEK -->
     <center>
-        <AnchorPane fx:id="mapPane" style="-fx-background-color: #008A0F;">
+        <AnchorPane fx:id="mapPane" style="-fx-background-color: #1F8C32;">
             <children>
                 <Label text="Mapa" layoutX="20.0" layoutY="20.0"/>
 

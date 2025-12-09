@@ -13,6 +13,13 @@ public class SkrzyniaBiegow extends Komponent {
         this.iloscBiegow = setIloscBiegow;
         this.bieg = 0;
     }
+
+    @Override
+    public String toString() {
+        return nazwa;   // or getNazwa()
+    }
+
+
     public SkrzyniaBiegow getSkrzyniaBiegow() {
         return SkrzyniaBiegow.this;
     }

@@ -66,26 +66,27 @@ public class MainController {
     }
 
 
-    public void openNewWindow() {
+    public void CarAddWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("NewWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CarAddView.fxml"));
             Parent root = loader.load();
 
             CarAddController controller = loader.getController();
-
-            // Suppose you have these lists already in MainController:
-            // ObservableList<SkrzyniaBiegow> gearboxes;
-            // ObservableList<Silnik> engines;
-            // ObservableList<Sprzeglo> clutches;
+            controller.setMainController(this);   // <-- important
 
             Stage stage = new Stage();
-            stage.setTitle("Nowe okno");
+            stage.setTitle("Dodaj samochód");
             stage.setScene(new Scene(root));
             stage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addCarFromDialog(Samochod car) {
+        cars.add(car);
+        carComboBox.getSelectionModel().select(car);
     }
 
     private void selectCar(Samochod car) {
@@ -152,6 +153,23 @@ public class MainController {
             tfSpeed.setText("0");
         }
         tfEngineRpm.setText(String.valueOf(currentCar.getSilnik().getObroty()));
+    }
+
+    @FXML private ToggleButton clutchToggle;
+
+    @FXML
+    private void onClutchToggle() {
+        if (currentCar == null) return;
+
+        boolean nowOn = clutchToggle.isSelected();
+
+        if (nowOn) {
+            currentCar.getSprzeglo().wcisnij();
+            clutchToggle.setText("Wcisniete");
+        } else {
+            currentCar.getSprzeglo().zwolnij();
+            clutchToggle.setText("Zwolnione");
+        }
     }
 
     @FXML
