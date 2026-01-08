@@ -13,8 +13,11 @@ import javafx.scene.Scene;
 
 // importy z modułu symulator:
 import symulator.*;
+import javafx.application.Platform;
 
-public class MainController {
+
+public class MainController implements Listener {
+
 
     @FXML private ComboBox<Samochod> carComboBox;
 
@@ -61,8 +64,13 @@ public class MainController {
 
         // 4. Listener for user selection
         carComboBox.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldCar, newCar) -> selectCar(newCar)
-        );
+                (obs, oldCar, newCar) -> selectCar(newCar));
+
+        mapPane.setOnMouseClicked(event -> {
+            if (currentCar == null) return;
+            Pozycja nowa = new Pozycja((int)event.getX(), (int)event.getY());
+            currentCar.jedzDo(nowa);
+        });
     }
 
 
@@ -94,6 +102,12 @@ public class MainController {
 
         currentCar = car;
 
+        if (currentCar != null) {
+            currentCar.removeListener(this);
+        }
+        currentCar = car;
+        currentCar.addListener(this);
+
         // Stan włączenia silnika
         boolean wlaczony = car.StanWlaczenia();   // or getStanWlaczenia()
         engineToggle.setSelected(wlaczony);
@@ -123,8 +137,6 @@ public class MainController {
         tfClutchName.setText(car.getSprzeglo().getNazwa());
         tfClutchPrice.setText(String.valueOf(car.getSprzeglo().getCena()));
         tfClutchWeight.setText(String.valueOf(car.getSprzeglo().getWaga()));
-        tfClutchState.setText("Zwolnione");
-
         // mapa
         carImage.setLayoutX(car.getPozycja().getX());
         carImage.setLayoutY(car.getPozycja().getY());
@@ -175,14 +187,14 @@ public class MainController {
     @FXML
     private void onGearUp() {
         if (currentCar == null) return;
-        currentCar.getSkrzyniaBiegow().zwiekszBieg();
+        currentCar.zwiekszBiegBezpiecznie();
         tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
     }
 
     @FXML
     private void onGearDown() {
         if (currentCar == null) return;
-        currentCar.getSkrzyniaBiegow().zmniejszBieg();
+        currentCar.zmniejszBiegBezpiecznie();
         tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
     }
 
@@ -191,7 +203,7 @@ public class MainController {
         if (currentCar == null) return;
         currentCar.getSilnik().zwiekszObroty();
         tfEngineRpm.setText(String.valueOf(currentCar.getSilnik().getObroty()));
-        moveCar(5, 0);
+        //moveCar(5, 0);
     }
 
     @FXML
@@ -223,4 +235,20 @@ public class MainController {
         carImage.setLayoutY(p.getY());
     }
 
+    @Override
+    public void update() {
+        Platform.runLater(this::refresh);
+    }
+
+    private void refresh() {
+        if (currentCar == null) return;
+
+        carImage.setLayoutX(currentCar.getPozycja().getX());
+        carImage.setLayoutY(currentCar.getPozycja().getY());
+
+        // opcjonalnie: odśwież też pola prędkości/obrotów/biegu
+        tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
+        tfEngineRpm.setText(String.valueOf(currentCar.getSilnik().getObroty()));
+        tfSpeed.setText(String.valueOf((int)Math.round(currentCar.getPredkoscAktualna())));
+    }
 }

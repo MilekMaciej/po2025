@@ -29,7 +29,7 @@ public class Silnik extends Komponent{
     }
 
     public void zwiekszObroty(){
-        if((obroty + 100) < maxObroty){
+        if((obroty + 500) < maxObroty){
             this.obroty += 500;
         }
         else{
@@ -37,8 +37,8 @@ public class Silnik extends Komponent{
         }
     }
     public void zmniejszObroty() {
-        if ((obroty - 100) <= 0) {
-            this.obroty -= 500;
+        if ((obroty - 500) >= 0) {
+            this.obroty = this.obroty - 500;
         }
         else{
             this.obroty = 0;

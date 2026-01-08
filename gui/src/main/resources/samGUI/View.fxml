@@ -163,15 +163,11 @@
                                 <Label text="Masa:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                                 <TextField fx:id="tfClutchWeight" editable="false"
                                            GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                                <Label text="Stan:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                                <TextField fx:id="tfClutchState" editable="false"
-                                           GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                             </children>
                         </GridPane>
 
                         <HBox spacing="5.0" alignment="CENTER">
-                            <ToggleButton fx:id="clutchToggle" text="Wcisniete" onAction="#onClutchToggle" prefWidth="100"/>
+                            <ToggleButton fx:id="clutchToggle" text="Zwolnione" onAction="#onClutchToggle" prefWidth="100"/>
                         </HBox>
                     </VBox>
                 </content>
