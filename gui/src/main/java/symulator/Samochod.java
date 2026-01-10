@@ -17,6 +17,8 @@ public class Samochod extends Thread{
     private Pozycja pozycja;
     private Sprzeglo sprzeglo;
 
+    private String iconPath;
+
     private volatile Pozycja cel = null;
     private volatile boolean running = true;
 
@@ -67,6 +69,9 @@ public class Samochod extends Thread{
     public Sprzeglo getSprzeglo() {
         return sprzeglo;
     }
+
+    public String getIconPath() { return iconPath; }
+    public void setIconPath(String iconPath) { this.iconPath = iconPath; }
 
     public boolean StanWlaczenia() {
         return stanWlaczenia;

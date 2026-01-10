@@ -25,4 +25,7 @@ public class Sprzeglo extends Komponent {
         return getNazwa(); // jeśli Komponent ma getNazwa()
         // albo: return super.getNazwa();
     }
+    public Sprzeglo copy() {
+        return new Sprzeglo(getWaga(), getNazwa(), getCena());
+    }
 }

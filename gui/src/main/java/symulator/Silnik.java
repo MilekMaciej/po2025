@@ -13,7 +13,7 @@ public class Silnik extends Komponent{
 
     @Override
     public String toString() {
-        return nazwa;   // or getNazwa()
+        return getNazwa();   // or getNazwa()
     }
 
     public int getObroty() {
@@ -43,5 +43,10 @@ public class Silnik extends Komponent{
         else{
             this.obroty = 0;
         }
+    }
+    public int getMaxObroty() { return maxObroty; }
+
+    public Silnik copy() {
+        return new Silnik(getMaxObroty(), getWaga(), getNazwa(), getCena());
     }
 }

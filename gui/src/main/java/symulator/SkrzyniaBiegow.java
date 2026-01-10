@@ -16,7 +16,7 @@ public class SkrzyniaBiegow extends Komponent {
 
     @Override
     public String toString() {
-        return nazwa;   // or getNazwa()
+        return getNazwa();   // or getNazwa()
     }
 
 
@@ -40,5 +40,10 @@ public class SkrzyniaBiegow extends Komponent {
     }
     public float getAktualnePrzelozenie() {
         return aktualnePrzelozenie;
+    }
+    public int getIloscBiegow() { return iloscBiegow; }
+
+    public SkrzyniaBiegow copy() {
+        return new SkrzyniaBiegow(getIloscBiegow(), getWaga(), getNazwa(), getCena());
     }
 }

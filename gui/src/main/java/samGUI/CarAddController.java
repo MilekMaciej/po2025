@@ -1,5 +1,6 @@
 package samGUI;
 
+import javafx.scene.image.Image;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -12,7 +13,10 @@ public class CarAddController {
     @FXML private TextField tfModel;
     @FXML private TextField tfPlate;
     @FXML private TextField tfWeight;
+    @FXML private TextField tfMaxSpeed;
 
+    @FXML private javafx.scene.image.ImageView iconPreview;
+    @FXML private ComboBox<String> iconBox;
     @FXML private ComboBox<Silnik>        engineBox;
     @FXML private ComboBox<SkrzyniaBiegow> gearboxBox;
     @FXML private ComboBox<Sprzeglo>      clutchBox;
@@ -24,57 +28,69 @@ public class CarAddController {
     }
 
     @FXML
-    private void initialize() {
-        // fill ComboBoxes from DataManager
-        engineBox.setItems(FXCollections.observableArrayList(
-                DataManager.getAvailableEngines()
-        ));
-        gearboxBox.setItems(FXCollections.observableArrayList(
-                DataManager.getAvailableGearboxes()
-        ));
-        clutchBox.setItems(FXCollections.observableArrayList(
-                DataManager.getAvailableClutches()
-        ));
+    public void initialize() {
+        gearboxBox.setItems(FXCollections.observableArrayList(DataManager.getAvailableGearboxes()));
+        engineBox.setItems(FXCollections.observableArrayList(DataManager.getAvailableEngines()));
+        clutchBox.setItems(FXCollections.observableArrayList(DataManager.getAvailableClutches()));
 
-        // optionally select first items
-        if (!engineBox.getItems().isEmpty())  engineBox.getSelectionModel().selectFirst();
-        if (!gearboxBox.getItems().isEmpty()) gearboxBox.getSelectionModel().selectFirst();
-        if (!clutchBox.getItems().isEmpty())  clutchBox.getSelectionModel().selectFirst();
+        // wybór domyślny (żeby nie było null)
+        gearboxBox.getSelectionModel().selectFirst();
+        engineBox.getSelectionModel().selectFirst();
+        clutchBox.getSelectionModel().selectFirst();
+
+        // ikony – patrz punkt 2
+        iconBox.setItems(FXCollections.observableArrayList(DataManager.getAvailableIcons()));
+        iconBox.getSelectionModel().selectFirst();
+        updateIconPreview();
+        iconBox.setOnAction(e -> updateIconPreview());
     }
 
     @FXML
     private void onSave() {
-        // read data from fields + combos
-        String model = tfModel.getText();
-        String plate = tfPlate.getText();
-        float weight = Float.parseFloat(tfWeight.getText());
+        String model = tfModel.getText().trim();
+        String plate = tfPlate.getText().trim();
+        float maxSpeed = Float.parseFloat(tfMaxSpeed.getText().trim());
 
-        Silnik engine = engineBox.getValue();
-        SkrzyniaBiegow gearbox = gearboxBox.getValue();
-        Sprzeglo clutch = clutchBox.getValue();
+        Silnik engineTemplate = engineBox.getValue();
+        SkrzyniaBiegow gearboxTemplate = gearboxBox.getValue();
+        Sprzeglo clutchTemplate = clutchBox.getValue();
 
-        // simple start position – you can change this
-        Pozycja p = new Pozycja(10, 10);
+        String iconPath = iconBox.getValue();
 
-        Samochod newCar = new Samochod(model, weight, plate, p, engine, gearbox, clutch);
+        // startowa pozycja
+        Pozycja p = new Pozycja(100, 100);
 
-        // add to global data
+        // WAŻNE: kopie części, żeby auta nie dzieliły stanu
+        Silnik engine = engineTemplate.copy();
+        SkrzyniaBiegow gearbox = gearboxTemplate.copy();
+        Sprzeglo clutch = clutchTemplate.copy();
+
+        Samochod newCar = new Samochod(model, maxSpeed, plate, p, engine, gearbox, clutch);
+        newCar.setIconPath(iconPath);
+
         DataManager.addCar(newCar);
 
-        // update main window list if we have a reference
         if (mainController != null) {
             mainController.addCarFromDialog(newCar);
         }
 
-        // close this window
-        Stage stage = (Stage) tfModel.getScene().getWindow();
-        stage.close();
+        newCar.setIconPath(iconBox.getValue());
+
+        ((Stage) tfModel.getScene().getWindow()).close();
     }
+
 
     @FXML
     private void onCancel() {
         Stage stage = (Stage) tfModel.getScene().getWindow();
         stage.close();
     }
+
+    private void updateIconPreview() {
+        String path = iconBox.getValue();
+        if (path == null) return;
+        iconPreview.setImage(new Image(getClass().getResourceAsStream(path)));
+    }
+
 }
 

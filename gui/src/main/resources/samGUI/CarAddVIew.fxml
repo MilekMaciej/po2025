@@ -3,12 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
 
 <VBox xmlns="http://javafx.com/javafx/20"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="samGUI.CarAddController"
       spacing="10" alignment="CENTER"
-      prefWidth="400" prefHeight="250">
+      prefWidth="500" prefHeight="400">
 
     <padding>
         <Insets topRightBottomLeft="10.0"/>
@@ -17,32 +19,47 @@
     <Label text="Wybierz części samochodu" style="-fx-font-size: 14; -fx-font-weight: bold;"/>
 
     <GridPane hgap="10" vgap="10">
+        <Label text="Model:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfModel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Nr rej:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfPlate" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Max prędkość:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfMaxSpeed" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
         <columnConstraints>
             <ColumnConstraints halignment="RIGHT" minWidth="80"/>
             <ColumnConstraints hgrow="ALWAYS"/>
         </columnConstraints>
 
         <children>
-            <Label text="Skrzynia:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label text="Skrzynia:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
             <ComboBox fx:id="gearboxBox"
                       prefWidth="220"
-                      GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                      GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-            <Label text="Silnik:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label text="Silnik:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
             <ComboBox fx:id="engineBox"
                       prefWidth="220"
-                      GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                      GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
-            <Label text="Sprzęgło:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label text="Sprzęgło:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
             <ComboBox fx:id="clutchBox"
                       prefWidth="220"
-                      GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                      GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Label text="Ikona:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="iconBox" prefWidth="220" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <ImageView fx:id="iconPreview" fitWidth="80" fitHeight="50" preserveRatio="true"
+                       GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
         </children>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Anuluj" onAction="#onCancel"/>
-        <Button text="Zapisz"/>
+        <Button text="Zapisz" onAction="#onSave"/>
     </HBox>
 
 </VBox>

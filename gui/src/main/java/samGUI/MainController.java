@@ -143,6 +143,12 @@ public class MainController implements Listener {
 
         tfEngineRpm.setText(String.valueOf(car.getSilnik().getObroty()));
 
+        String path = currentCar.getIconPath();
+        if (path != null) {
+            carImage.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream(path)));
+        }
+
+
     }
 
     // --- AKCJE GUI ---
