@@ -23,7 +23,7 @@
             <ComboBox fx:id="carComboBox" prefWidth="250.0"/>
 
             <Button text="Dodaj nowy" onAction="#CarAddWindow"/>
-            <Button text="Usuń"/>
+            <Button text="Usuń" onAction="#DeleteSelectedCar"/>
         </HBox>
     </top>
 

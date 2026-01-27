@@ -193,15 +193,25 @@ public class MainController implements Listener {
     @FXML
     private void onGearUp() {
         if (currentCar == null) return;
-        currentCar.zwiekszBiegBezpiecznie();
-        tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
+        try {
+            currentCar.zwiekszBiegBezpiecznie();
+            tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
+        }
+        catch (IllegalStateException e) {
+            pokazBlad(e.getMessage());
+        }
     }
 
     @FXML
     private void onGearDown() {
         if (currentCar == null) return;
-        currentCar.zmniejszBiegBezpiecznie();
-        tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
+        try {
+            currentCar.zmniejszBiegBezpiecznie();
+            tfGear.setText(String.valueOf(currentCar.getSkrzyniaBiegow().getBieg()));
+        }
+        catch (IllegalStateException e) {
+            pokazBlad(e.getMessage());
+        }
     }
 
     @FXML
@@ -257,4 +267,20 @@ public class MainController implements Listener {
         tfEngineRpm.setText(String.valueOf(currentCar.getSilnik().getObroty()));
         tfSpeed.setText(String.valueOf((int)Math.round(currentCar.getPredkoscAktualna())));
     }
+
+    public void DeleteSelectedCar() {
+        if (currentCar == null) return;
+        else {
+            cars.remove(currentCar);
+            carComboBox.getSelectionModel().selectFirst();
+        }
+    }
+    public void pokazBlad(String wiadomosc) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Błąd");
+        alert.setHeaderText(null);
+        alert.setContentText(wiadomosc);
+        alert.showAndWait();
+    }
+
 }

@@ -169,9 +169,8 @@ public class Samochod extends Thread{
             } else if (sprzeglo.czyWcisniete()) {
                 // sprzęgło wciśnięte: utrzymaj prędkość (albo wytracaj powoli)
                 predkoscAktualna = Math.max(0, predkoscAktualna - HAMOWANIE_SPRZEGLO * dt);
-                // jeśli wolisz "idealnie utrzymuje": zakomentuj linię powyżej
             } else {
-                // sprzęgło puszczone: dopasuj prędkość do docelowej (czyli dopiero tu wchodzi efekt zmiany biegu)
+                // sprzęgło puszczone: dopasuj prędkość do docelowej
                 double vDoc = getPredkoscDocelowa();
 
                 // płynne dążenie do docelowej (ograniczone przyspieszenie)
